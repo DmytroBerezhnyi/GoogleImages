@@ -13,8 +13,10 @@ import java.io.FileOutputStream
 class PhotoLoader(val name : String, val imageView : ImageView) : Target {
 
     override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
-        Log.e("DEBUG", Environment.getExternalStorageDirectory().path + "/Pictures/ImageOnline/" + name)
-        val file = File(Environment.getExternalStorageDirectory().path + "/Pictures/ImageOnline/" + name)
+        val file = File(Environment.getExternalStorageDirectory().path + "/Pictures/ImageOnline/${name}.jpg")
+        if(!file.parentFile.exists()) {
+            file.parentFile.mkdirs()
+        }
         file.createNewFile()
         val fileOutputStream = FileOutputStream(file)
         bitmap!!.compress(Bitmap.CompressFormat.JPEG, 75,  fileOutputStream)
