@@ -32,16 +32,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        init()
+    }
+
+    private fun init() {
         listView.value.adapter = listAdapter.value
 
         button.value.setOnClickListener {
-            list.removeAll(list)
-            getListItems(editText.value.text.toString());
-            Log.e("DEBUG", "Did t!! 1 ${list.size}")
+            putToListItems(editText.value.text.toString())
         }
     }
 
-    private fun getListItems(q: String) {
+    private fun putToListItems(q: String) {
+        list.clear()
+        listAdapter.value.clear()
         val retrofit = Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -56,21 +60,18 @@ class MainActivity : AppCompatActivity() {
                         for(x in 0 until example.items!!.size step 3) {
                             if(x + 2 < example.items!!.size) {
                                 list.add(listOf(example.items!![x], example.items!![x + 1], example.items!![x + 2]))
-                            } //else {
-                                //when(example.items!!.size - x) {
-                               //     1 -> {res.add(listOf(example.items!![x]))}
-                               //     2 -> {res.add(listOf(example.items!![x], example.items!![x + 1]))}
-                               // }
-                            //}
+                          //  } else {
+                            //    when(example.items!!.size - x) {
+                            //        1 -> {list.add(listOf(example.items!![x]))}
+                            //        2 -> {list.add(listOf(example.items!![x], example.items!![x + 1]))}
+                            //    }
+                            }
                         }
                         listAdapter.value.notifyDataSetChanged()
-                        Log.e("DEBUG", "Did t!! 0 ${list.size}")
                     }
             }
-
             override fun onFailure(call: Call<Example>?, t: Throwable?) {
             }
-
         })
     }
 }
