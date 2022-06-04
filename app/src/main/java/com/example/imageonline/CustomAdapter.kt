@@ -82,7 +82,7 @@ class CustomAdapter(context: Context, val items: ArrayList<List<Item>>) :
                 .into(viewHolder.iv3)
 
         } catch (e : Exception) {
-            Log.e("DEBUG", e.message)
+            Log.e("DEBUG", e.message.toString())
         }
             return result
         }
